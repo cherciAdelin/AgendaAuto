@@ -20,7 +20,14 @@ import kotlinx.coroutines.flow.first
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-enum class SortOption { NAME_ASC, NAME_DESC }
+enum class SortOption {
+    NAME_ASC,
+    NAME_DESC,
+    MONEY_DESC,
+    MONEY_ASC,
+    LESSONS_DESC,
+    LESSONS_ASC
+}
 enum class FilterOption { ALL, ACTIV, ADMIS }
 
 class StudentViewModel(
@@ -51,12 +58,19 @@ class StudentViewModel(
         }
 
         if (query.isNotBlank()) {
-            processedList = processedList.filter { it.name.contains(query, ignoreCase = true) }
+            processedList = processedList.filter {
+                it.name.contains(query, ignoreCase = true) ||
+                        (it.phoneNumber != null && it.phoneNumber.contains(query))
+            }
         }
 
         when (sort) {
             SortOption.NAME_ASC -> processedList.sortedBy { it.name.lowercase() }
             SortOption.NAME_DESC -> processedList.sortedByDescending { it.name.lowercase() }
+            SortOption.MONEY_DESC -> processedList.sortedByDescending { it.totalContractValue - it.moneyPaid }
+            SortOption.MONEY_ASC -> processedList.sortedBy { it.totalContractValue - it.moneyPaid }
+            SortOption.LESSONS_DESC -> processedList.sortedByDescending { it.lessonsTaken }
+            SortOption.LESSONS_ASC -> processedList.sortedBy { it.lessonsTaken }
         }
     }.stateIn(
         scope = viewModelScope,

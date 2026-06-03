@@ -36,6 +36,10 @@ fun StudentListScreen(
     val sortLabel = when (currentSort) {
         SortOption.NAME_ASC -> "Nume (A-Z)"
         SortOption.NAME_DESC -> "Nume (Z-A)"
+        SortOption.MONEY_DESC -> "Rest plată (Desc)"
+        SortOption.MONEY_ASC -> "Rest plată (Cresc)"
+        SortOption.LESSONS_DESC -> "Ore (Desc)"
+        SortOption.LESSONS_ASC -> "Ore (Cresc)"
     }
 
     val filterLabel = when (currentFilter) {
@@ -78,6 +82,34 @@ fun StudentListScreen(
                     text = { Text("Nume (Z-A)") },
                     onClick = {
                         viewModel.setSortOption(SortOption.NAME_DESC)
+                        showSortMenu = false
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text("Rest plată (Descrescător)") },
+                    onClick = {
+                        viewModel.setSortOption(SortOption.MONEY_DESC)
+                        showSortMenu = false
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text("Rest plată (Crescător)") },
+                    onClick = {
+                        viewModel.setSortOption(SortOption.MONEY_ASC)
+                        showSortMenu = false
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text("Ore efectuate (Descrescător)") },
+                    onClick = {
+                        viewModel.setSortOption(SortOption.LESSONS_DESC)
+                        showSortMenu = false
+                    }
+                )
+                DropdownMenuItem(
+                    text = { Text("Ore efectuate (Crescător)") },
+                    onClick = {
+                        viewModel.setSortOption(SortOption.LESSONS_ASC)
                         showSortMenu = false
                     }
                 )
